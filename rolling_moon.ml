@@ -1,4 +1,4 @@
-#!/usr/bin/env ocaml
+
 (* {{{ COPYING *(
 
   This file is a simple arcade game that uses the Chipmunk library.
@@ -20,16 +20,16 @@
 )* }}} *)
 (* {{{ Modules *)
 
-#directory "+glMLite"
-#load "GL.cma"
-#load "Glu.cma"
-#load "Glut.cma"
+
+
+
+
 open GL
 open Glu
 open Glut
 
-#directory "+chipmunk"
-#load "chipmunk.cma"
+
+
 open Chipmunk ;;
 open Low_level ;;
 open OO ;;
@@ -160,7 +160,7 @@ let active_bodies_li = ref [] ;;
 
 let targets_shapes_li = ref [] ;;
 
-let _ball_id = init_global()
+(*let _ball_id:  = init_global()*)
 let targets_id_arr = ref [| |] ;;
 
 let _stop = ref false ;;
@@ -220,7 +220,7 @@ let reset_avatar, avatar_start_pos =
      ball#set_a_vel ~w:0.0;
      ball#set_angle ~a:0.0;
      ball#set_vel ~v:cpvzero;
-     ball#set_rot ~rot:cpvzero;
+     (* ball#set_rot ~rot:cpvzero; *)
      ball#set_pos ~p:(cpv !x !y);
      ),
   (fun _x _y ->
@@ -242,10 +242,12 @@ let init_rolling_ball level =
   _space := Some space;
 
   space#set_gravity (cpv 0.0 (-. !gravity));
-  space#set_elastic_iterations 10;
+  space#set_iterations 10;
 
+(*
   space#resize_static_hash 30.0 4000;
   space#resize_active_hash 30.0 20;
+*)
 
   (* {{{ static body *)
 
@@ -297,7 +299,9 @@ let init_rolling_ball level =
   space#add_shape shape;
   active_shapes_li := shape :: !active_shapes_li;
 
+(* TODO
   _ball_id := Some(shape#get_hashid);
+*)
 
   shape#set_layers 0b0000000_00000000_11111111_00000000;
 
@@ -338,7 +342,7 @@ let init_rolling_ball level =
     space#add_static_shape shape;
     targets_shapes_li := shape :: !targets_shapes_li;
 
-    (shape#get_hashid, false)
+    (()(* PAD shape#get_hashid *), false)
   in
   targets_id_arr := Array.of_list (List.map add_target level_targets);
 
@@ -389,7 +393,9 @@ let re_init_globals() =
 
 let free_level() =
   let space = get_global _space in
+(*
   space#free_children;
+*)
   space#free;
   let staticBody = get_global _staticBody in
   staticBody#free;
@@ -451,6 +457,7 @@ let prop_targets() =
 let proc_collisions ~arb =
   let a = cpArbiterGetShapePA arb
   and b = cpArbiterGetShapePB arb in
+(*
   let a_id = cpShapeGetHashID a
   and b_id = cpShapeGetHashID b in
 
@@ -467,6 +474,7 @@ let proc_collisions ~arb =
   in
 
   Array.iteri check_target !targets_id_arr;
+*)
 
   let done_ =
     Array.fold_left (fun x (_,b) -> x && b) true !targets_id_arr
@@ -505,8 +513,10 @@ let rolling_ball_update() =
 
     for i=0 to pred substeps do
 
+(*
       let arbiters = space#get_arbiters  in
       Array.iter (fun arb -> proc_collisions ~arb) arbiters;
+*)
 
       ball#reset_forces;
 
@@ -546,10 +556,10 @@ let was_touched id arr =
 let drawTargetShape ~shape =
   let body = shape#body
   and circle = shape#get_circle_shape
-  and id = shape#get_hashid
+  (* and id = shape#get_hashid *)
   in
   let c = cpvadd body#get_pos (cpvrotate circle#get_center body#get_rot) in
-  if was_touched id !targets_id_arr
+  if false (* was_touched id !targets_id_arr*)
   then glColor3 0.0 0.5 0.0
   else glColor3 0.2 1.0 0.7;
   target_circle  c.cp_x  c.cp_y  circle#get_radius  body#get_angle;
@@ -627,7 +637,7 @@ let drawPolyShape ~shape =
 
 
 let drawObject ~shape =
-  match shape#kind with
+  match cpShapeGetType shape#shape with
   | CP_CIRCLE_SHAPE -> drawCircleShape ~shape;
   | CP_SEGMENT_SHAPE -> drawSegmentShape ~shape;
   | CP_POLY_SHAPE -> drawPolyShape ~shape;
@@ -649,6 +659,7 @@ let drawBodies ~bodies =
 
 
 let draw_collisions ~arb:arbiter =
+(*
   let cont_arr = (get_arbiter_contacts ~arbiter) in
 
   glColor3 1.0 0.5 0.0;
@@ -658,6 +669,8 @@ let draw_collisions ~arb:arbiter =
         glVertex2  v.cp_x  v.cp_y;
       ) cont_arr;
   glEnd();
+
+*)()
 ;;
 
 (* }}} *)
@@ -1022,7 +1035,7 @@ let init_gl() =
 
 (* }}} *)
 (* {{{ texture *)
-#load "jpeg_loader.cma"
+
 
 let load_texture ~filename =
   let texture, width, height, internal_format, pixel_data_format =
