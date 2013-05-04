@@ -1,3 +1,11 @@
+#############################################################################
+# Configuration section
+#############################################################################
+
+##############################################################################
+# Variables
+##############################################################################
+
 LEVEL_SRC=\
    level.0.svgz \
    level.1.svgz \
@@ -10,76 +18,40 @@ LEVEL_SRC=\
 LDATA := $(patsubst %.svgz, %.data, $(LEVEL_SRC))
 LPLAY := $(patsubst %, -l %, $(LDATA))
 
-CHIP_PATH := +chipmunk
+INCLUDES=-I external/glMLite/SRC -I external/ocaml-chipmunk
+LIBS=chipmunk.cma GL.cma Glu.cma Glut.cma  jpeg_loader.cma
+
+##############################################################################
+# Top rules
+##############################################################################
 
 # boot
-all: run-opt
+all: rolling_moon
 
-run-int: rolling_moon.ml $(LDATA)
-	./$< $(LPLAY)
+all.opt: rolling_moon.opt
 
-run-bin: rolling_moon.bin $(LDATA)
-	./$< $(LPLAY)
+rolling_moon: rolling_moon.ml
+	ocamlc -annot $(INCLUDES) $(LIBS) $< -o $@
 
-run-opt: rolling_moon.opt $(LDATA)
-	./$< $(LPLAY)
+rolling_moon.opt: rolling_moon.ml
+	ocamlopt -annot $(INCLUDES) $(LIBS:.cma=.cmxa) $< -o $@
+
+# clean
+clean:
+	rm -f *~ *.cm[iox] *.o *.bin *.opt *.data
 
 # levels
 edit:
 	inkscape $(LEVEL_SRC)
 
+##############################################################################
+# Levels
+##############################################################################
+
 level:  $(LDATA)
 %.data: %.svgz
 	sh mk-level-data.sh $< $@
 
-# compilations
-bin: rolling_moon.bin
-opt: rolling_moon.opt
-
-rolling_moon_.ml: rolling_moon.ml
-	sed -e 's|^#.*$$||g' $< > $@
-
-rolling_moon.bin: rolling_moon_.ml
-	ocamlc  \
-	  -I $(CHIP_PATH) chipmunk.cma  \
-	  -I +glMLite GL.cma Glu.cma Glut.cma  \
-	  jpeg_loader.cma \
-	  $< -o $@
-
-rolling_moon.opt: rolling_moon_.ml
-	ocamlopt -annot  \
-	  -I $(CHIP_PATH) chipmunk.cmxa  \
-	  -I +glMLite GL.cmxa Glu.cmxa Glut.cmxa  \
-	  jpeg_loader.cmxa \
-	  $< -o $@
-
-# clean
-clean:
-	rm -f *~ *.cm[iox] *.o *.bin *.opt *.data _rolling-moon.ml
-
-# tarball
-VERSION=`date --iso`
-DIR=rolling_moon-$(VERSION)
-FILES=\
-     README.html \
-     Makefile \
-     mk-level-data.ml \
-     mk-level-data.sh \
-     rolling_moon.ml \
-     tex-b-64.jpg \
-     best-times.txt \
-     $(LEVEL_SRC)
-
-LICENCE_GPL.txt:
-	wget http://www.gnu.org/licenses/gpl-3.0.txt
-	mv gpl-3.0.txt $@
-
-pack: $(FILES) LICENCE_GPL.txt
-	if [ ! -d $(DIR) ]; then mkdir $(DIR); fi
-	cp $(FILES) $(DIR)/
-	mv LICENCE_GPL.txt $(DIR)/
-	tar cf $(DIR).tar  $(DIR)/
-	if [ -f $(DIR).tar.bz2 ]; then rm -f $(DIR).tar.bz2 ; fi
-	bzip2 -9  $(DIR).tar
-	ls -lh  $(DIR).tar.bz2
-
+##############################################################################
+# Packaging
+##############################################################################
