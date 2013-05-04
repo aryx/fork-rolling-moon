@@ -1,0 +1,93 @@
+<html>
+<head><title>The Rolling-Moon</title>
+<style type="text/css">
+body {
+	padding: 2em 28% 3em 12%;
+	color: #114;
+	background-color: #D8D8EE;
+}
+a { color: #55C; }
+</style>
+</head>
+<body><h1>The Rolling-Moon</h1>
+
+	<h2>Dependences</h2>
+<p>	To play this game you need the Chipmunk 2D physics engine,
+	which you can find here:<br />
+	<a href="http://code.google.com/p/chipmunk-physics/"
+		>http://code.google.com/p/chipmunk-physics/</a>
+	<br />
+	You also need its ocaml wrapper:<br />
+	<a href="http://www.linux-nantes.org/~fmonnier/OCaml/Chipmunk/"
+		>http://www.linux-nantes.org/~fmonnier/OCaml/Chipmunk/</a>
+	<br />
+	And the graphics rendering is made through this OCaml-OpenGL wrapper:<br />
+	<a href="http://www.linux-nantes.org/~fmonnier/OCaml/GL/"
+		>http://www.linux-nantes.org/~fmonnier/OCaml/GL/</a>
+</p>
+
+	<h2>Launch the game</h2>
+<p>	Just run the command 'make' which will compile and run the game.<br />
+</p>
+
+	<h2>How to play</h2>
+<p>	Use the left and right arrows to rotate the level which makes move the avatar ball.
+	The goal is to touch all the target green circles of the level.<br />
+	While playing you can make pauses with the 'P' key, and you can restart the level
+	with the 'Z' key, or go to the next level with 'N'.<br />
+	You can also access the commands with a right clic in the window.
+</p>
+
+	<h2>Command line arguments</h2>
+<pre>
+    -l  --level        level.data file (several ones can be given)
+    -t  --texture      texture jpeg image
+    -r  --resolution   size of the window, for exemple "640x480" (the default)
+    -w  --wireframe    minimal rendering for slow machines
+    -b  --no-bg        in textured mode, only fills the level,
+                       but not the background (for Mesa users)
+</pre>
+
+	<h2>Designing New Levels</h2>
+<p>	Creating new levels is not very difficult.
+	You can use the SVG editor Inkscape to create levels in WYSIWYG.
+	The easiest way is probably to edit an existing one, and to modify it,
+	then save it selecting "Compressed Inkscape SVG".
+	Then convert the SVG source in binary level data with:<br />
+<code>	./mk-level-data.sh  level.x.svgz  level.x.data </code>
+</p>
+<p>	Then just load it in the game with:<br />
+<code>	./rolling-moon.ml  -l level.x.data </code>
+</p>
+<p>	If you prefer to create one from scratch, here is how to do:
+	you need to add a 'class' argument to the element to tell its type.
+	You can do so in the XML editor of Inkscape.
+	For the avatar (at its initial position) add 
+	<code> class="avatar"</code>.
+	For level parts add <code>class="level"</code>, for the targets add
+	<code>class="target"</code>.
+	for the level paths it need to be not closed,
+	and bezier curves are not recognised yet.
+</p>
+<p>	If the tesselation of paths that are inside another path is not as
+	expected, you may need to use "path &gt; invert" in the Inkscape menu,
+	with the related path selected.
+</p>
+
+	<h2>Sharing Your Levels</h2>
+<p>	Send them to me &lt;monnier.florent(at)gmail.com&gt; and I will
+	include these in the tarball!
+</p>
+
+	<h2>Inspiration</h2>
+<p>	Rolling-Moon is inspired by the SNES game "On The Ball"
+	(its japaneese name was "CamelTry").<br />
+	If you are interested you can see a video of "On The Ball" on youtube
+	<a href="http://fr.youtube.com/watch?v=CHS00nAgdk4">here</a>.
+</p>
+
+<p>	<em>Have Fun!</em>
+</p>
+
+</body>
+</html>
