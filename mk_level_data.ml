@@ -1,9 +1,3 @@
-#! /usr/bin/env ocaml
-#load "str.cma"
-#directory "+site-lib/xml-light"
-#directory "+xml-light"
-#load "xml-light.cma"
-
 let float_of_string str =
   try float_of_string str
   with Failure "float_of_string" ->

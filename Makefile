@@ -7,26 +7,26 @@
 ##############################################################################
 
 LEVEL_SRC=\
-   level.0.svgz \
-   level.1.svgz \
-   level.2.svgz \
-   level.3.svgz \
-   level.4.svgz \
-   level.5.svgz \
+   data/level.0.svgz \
+   data/level.1.svgz \
+   data/level.2.svgz \
+   data/level.3.svgz \
+   data/level.4.svgz \
+   data/level.5.svgz \
    #E
 
 LDATA := $(patsubst %.svgz, %.data, $(LEVEL_SRC))
-LPLAY := $(patsubst %, -l %, $(LDATA))
+LPLAY := $(patsubst data/%, -l %, $(LDATA))
 
 INCLUDES=-I external/glMLite/SRC -I external/ocaml-chipmunk
-LIBS=chipmunk.cma GL.cma Glu.cma Glut.cma  jpeg_loader.cma
+LIBS=chipmunk.cma GL.cma Glu.cma Glut.cma jpeg_loader.cma bigarray.cma
 
 ##############################################################################
 # Top rules
 ##############################################################################
 
 # boot
-all: rolling_moon
+all: rolling_moon.opt mk_level_data.byte
 
 all.opt: rolling_moon.opt
 
@@ -36,21 +36,28 @@ rolling_moon: rolling_moon.ml
 rolling_moon.opt: rolling_moon.ml
 	ocamlopt -annot $(INCLUDES) $(LIBS:.cma=.cmxa) $< -o $@
 
+
+mk_level_data.byte: mk_level_data.cmo
+	ocamlfind ocamlc -package xml-light,str -linkpkg -o $@ $<
+
+mk_level_data.cmo: mk_level_data.ml
+	ocamlfind ocamlc -package xml-light -annot $< -c
+
+levels:  $(LDATA)
+
+%.data: %.svgz
+	sh mk-level-data.sh $< $@
+
 # clean
 clean:
-	rm -f *~ *.cm[iox] *.o *.bin *.opt *.data
+	rm -f *~ *.cm[iox] *.o *.bin *.opt *.data *.annot *.byte
 
-# levels
+play:
+	./rolling_moon.opt $(LPLAY)
+
 edit:
 	inkscape $(LEVEL_SRC)
 
-##############################################################################
-# Levels
-##############################################################################
-
-level:  $(LDATA)
-%.data: %.svgz
-	sh mk-level-data.sh $< $@
 
 ##############################################################################
 # Packaging
