@@ -54,7 +54,7 @@ cpPinJoint pin_joint {
         NMass( cpFloat nMass ),
 
         JNAcc( cpFloat jnAcc ),
-        JNMax( cpFloat jnMax ),
+//        JNMax( cpFloat jnMax ),
         Bias( cpFloat bias ),
 };
 
@@ -72,7 +72,7 @@ cpSlideJoint slide_joint {
         NMass( cpFloat nMass ),
         
         JNAcc( cpFloat jnAcc ),
-        JNMax( cpFloat jnMax ),
+//        JNMax( cpFloat jnMax ),
         Bias( cpFloat bias ),
 };
 
@@ -85,11 +85,11 @@ cpPivotJoint pivot_joint {
         R1( cpVect r1 ),
         R2( cpVect r2 ),
 
-        K1( cpVect k1 ),
-        K2( cpVect k2 ),
+//        K1( cpVect k1 ),
+//        K2( cpVect k2 ),
 
         JAcc( cpVect jAcc ),
-        JMaxLen( cpFloat jMaxLen ),
+//        JMaxLen( cpFloat jMaxLen ),
         Bias( cpVect bias ),
 };
 
@@ -107,11 +107,11 @@ cpGrooveJoint groove_joint {
         R1( cpVect r1 ),
         R2( cpVect r2 ),
 
-        K1( cpVect k1 ),
-        K2( cpVect k2 ),
+//        K1( cpVect k1 ),
+//        K2( cpVect k2 ),
 
         JAcc( cpVect jAcc ),
-        JMaxLen( cpFloat jMaxLen ),
+//        JMaxLen( cpFloat jMaxLen ),
         Bias( cpVect bias ),
 };
 

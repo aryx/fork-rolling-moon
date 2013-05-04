@@ -51,6 +51,7 @@ dll_chipmunk_stubs.so  lib_chipmunk_stubs.a: wrap_chipmunk.o
 	ocamlmklib  \
 	    -L/usr/local/  \
 	    -L/usr/local/lib  \
+	    -L/opt/local/lib  \
 	    -o  _chipmunk_stubs  $<  \
 	    -ccopt -O3  -ccopt -std=gnu99  -ccopt -ffast-math  \
 	    -lchipmunk
