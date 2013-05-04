@@ -26,7 +26,7 @@ LIBS=chipmunk.cma GL.cma Glu.cma Glut.cma jpeg_loader.cma bigarray.cma
 ##############################################################################
 
 # boot
-all: rolling_moon.opt mk_level_data.byte levels
+all: rolling_moon.opt moon_buggy.opt mk_level_data.byte levels
 
 all.opt: rolling_moon.opt
 
@@ -64,7 +64,18 @@ edit:
 ##############################################################################
 
 ##############################################################################
+# Examples
+##############################################################################
+
+moon_buggy.opt: moon_buggy.ml
+	ocamlopt -annot -bin-annot $(INCLUDES) $(LIBS:.cma=.cmxa) $< -o $@
+
+##############################################################################
 # Developer rules
 ##############################################################################
+
 graph:
 	~/pfff/codegraph -symlinks -lang cmt -build .
+
+visual:
+	~/pfff/codemap -no_legend -profile -ss 2 -filter pfff .
