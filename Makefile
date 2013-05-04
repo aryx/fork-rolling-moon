@@ -15,8 +15,8 @@ LEVEL_SRC=\
    data/level.5.svgz \
    #E
 
-LDATA := $(patsubst %.svgz, %.data, $(LEVEL_SRC))
-LPLAY := $(patsubst data/%, -l %, $(LDATA))
+LDATA := $(patsubst data/%.svgz, %.data, $(LEVEL_SRC))
+LPLAY := $(patsubst data/%.svg, -l %.data, $(LEVEL_SRC))
 
 INCLUDES=-I external/glMLite/SRC -I external/ocaml-chipmunk
 LIBS=chipmunk.cma GL.cma Glu.cma Glut.cma jpeg_loader.cma bigarray.cma
@@ -26,7 +26,7 @@ LIBS=chipmunk.cma GL.cma Glu.cma Glut.cma jpeg_loader.cma bigarray.cma
 ##############################################################################
 
 # boot
-all: rolling_moon.opt mk_level_data.byte
+all: rolling_moon.opt mk_level_data.byte levels
 
 all.opt: rolling_moon.opt
 
@@ -45,7 +45,7 @@ mk_level_data.cmo: mk_level_data.ml
 
 levels:  $(LDATA)
 
-%.data: %.svgz
+%.data: data/%.svgz
 	sh mk-level-data.sh $< $@
 
 # clean
