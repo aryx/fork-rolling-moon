@@ -29,8 +29,8 @@
 #OCAMLOPT=ocamlopt
 #OCAMLC=ocamlc
 #OCAMLDOC=ocamldoc
-OCAMLOPT=ocamlopt.opt -g
-OCAMLC=ocamlc.opt
+OCAMLOPT=ocamlopt.opt -g -bin-annot
+OCAMLC=ocamlc.opt -bin-annot
 OCAMLDOC=ocamldoc.opt
 
 OCAML=ocaml

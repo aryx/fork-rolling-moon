@@ -34,7 +34,7 @@ rolling_moon: rolling_moon.ml
 	ocamlc -annot $(INCLUDES) $(LIBS) $< -o $@
 
 rolling_moon.opt: rolling_moon.ml
-	ocamlopt -annot $(INCLUDES) $(LIBS:.cma=.cmxa) $< -o $@
+	ocamlopt -annot -bin-annot $(INCLUDES) $(LIBS:.cma=.cmxa) $< -o $@
 
 
 mk_level_data.byte: mk_level_data.cmo
@@ -62,3 +62,9 @@ edit:
 ##############################################################################
 # Packaging
 ##############################################################################
+
+##############################################################################
+# Developer rules
+##############################################################################
+graph:
+	~/pfff/codegraph -symlinks -lang cmt -build .

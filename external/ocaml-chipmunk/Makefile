@@ -88,7 +88,7 @@ chipmunk.cmi: chipmunk.mli
 
 # bytecode
 chipmunk.cmo: chipmunk.ml chipmunk.cmi
-	ocamlc -c $<
+	ocamlc -bin-annot -c $<
 
 CUSTOM=-custom
 
