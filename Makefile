@@ -47,7 +47,7 @@ rolling_moon.bin: rolling_moon_.ml
 	  $< -o $@
 
 rolling_moon.opt: rolling_moon_.ml
-	ocamlopt  \
+	ocamlopt -annot  \
 	  -I $(CHIP_PATH) chipmunk.cmxa  \
 	  -I +glMLite GL.cmxa Glu.cmxa Glut.cmxa  \
 	  jpeg_loader.cmxa \
