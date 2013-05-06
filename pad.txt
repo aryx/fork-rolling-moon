@@ -1,0 +1,12 @@
+
+to compile:
+ $ cd external/glMLite; make
+ $ cd external/ocaml-chipmunk; make
+
+ $ make
+
+
+on mac before:
+ port install jpeg
+ port install chipmunk
+
