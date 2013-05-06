@@ -16,7 +16,7 @@ LEVEL_SRC=\
    #E
 
 LDATA := $(patsubst data/%.svgz, %.data, $(LEVEL_SRC))
-LPLAY := $(patsubst data/%.svg, -l %.data, $(LEVEL_SRC))
+LPLAY := $(patsubst data/%.svgz, -l %.data, $(LEVEL_SRC))
 
 INCLUDES=-I external/glMLite/SRC -I external/ocaml-chipmunk
 LIBS=chipmunk.cma GL.cma Glu.cma Glut.cma jpeg_loader.cma bigarray.cma

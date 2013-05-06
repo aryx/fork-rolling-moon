@@ -20,19 +20,13 @@
 )* }}} *)
 (* {{{ Modules *)
 
-
-
-
-
 open GL
 open Glu
 open Glut
 
-
-
-open Chipmunk ;;
-open Low_level ;;
-open OO ;;
+open Chipmunk
+open Low_level
+open OO
 
 (* }}} *)
 
@@ -376,7 +370,6 @@ let globals_init_vals() =
   key_left_down := false;
   key_right_down := false;
 ;;
-
 
 let re_init_globals() =
   active_shapes_li := [];
