@@ -372,7 +372,7 @@ let demo4_init() =
   new_segment c d;
   new_segment d a;
 
-  (* TODO cpBodySetAVel staticBody 0.4; *)
+  cpBodySetAngVel staticBody 0.4;
   
   for i=0 to pred 3 do
     for j=0 to pred 7 do
@@ -491,9 +491,9 @@ let demo5_init() =
     bodies_li := body :: !bodies_li;
 
     if i = n then begin
-      (* TODO cpBodySetAVel body (-1.); *)
-      (* let w = cpBodyGetAVel body in *)
-      (* cpBodySetVel body (cpv( (-.w) *. 20., 0.)); *)
+      cpBodySetAngVel body (-1.);
+      let w = cpBodyGetAngVel body in
+      cpBodySetVel body (cpv( (-.w) *. 20., 0.));
     end;
   done;
 ;;
@@ -571,7 +571,7 @@ let demo6_init() =
   let moment = moment +. (cpMomentForCircle 1.0 0.0 25.0 (cpvi(0,15))) in
   let body = cpBodyNew 1.0  moment in
   cpBodySetPos body (cpvi(-280, 250));
-  (* TODO cpBodySetAVel body 1.0; *)
+  cpBodySetAngVel body 1.0;
   cpSpaceAddBody space body;
   bodies_li := body :: !bodies_li;
 
