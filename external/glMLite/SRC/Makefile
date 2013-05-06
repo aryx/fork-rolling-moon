@@ -183,18 +183,29 @@ gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
 dllgl_stubs.so libgl_stubs.a: gl.wrap.o gl3_deprecations.o
 	$(OCAMLMKLIB)  -oc  gl_stubs  $^  $(GL_LIBS)
 else
-dllgl_stubs.so libgl_stubs.a: gl.wrap.o
-	$(OCAMLMKLIB)  -oc  gl_stubs  $<  $(GL_LIBS)
+#dllgl_stubs.so libgl_stubs.a: gl.wrap.o
+#	$(OCAMLMKLIB)  -oc  gl_stubs  $<  $(GL_LIBS)
+dllGL.so libGL.a: gl.wrap.o
+	$(OCAMLMKLIB)  -o  GL  $<  $(GL_LIBS)
 endif
 
-GL.cmxa GL.a:  GL.cmx  dllgl_stubs.so
-	$(OCAMLOPT) -a -o $@ -cclib -lgl_stubs -cclib "$(GL_LIBS)" $<
+GL.cmxa GL.a:  GL.cmx  dllGL.so
+	$(OCAMLMKLIB) -o GL  $<  $(GL_LIBS)
 
-GL.cma:  GL.cmo  dllgl_stubs.so
-	$(OCAMLC) -a -o $@ -ccopt "$(GL_LIBS)" -dllib -lgl_stubs $<
+GL.cma:  GL.cmo dllGL.so
+	$(OCAMLMKLIB) -o GL $(GL_LIBS) $<
 
 GL.cmxs: GL.cmxa
 	$(OCAMLOPT) -shared -linkall -o $@ $<
+
+#GL.cmxa GL.a:  GL.cmx  dllgl_stubs.so
+#	$(OCAMLOPT) -a -o $@ -cclib -lgl_stubs -cclib "$(GL_LIBS)" $<
+#
+#GL.cma:  GL.cmo  dllgl_stubs.so
+#	$(OCAMLC) -a -o $@ -ccopt "$(GL_LIBS)" -dllib -lgl_stubs $<
+#
+#GL.cmxs: GL.cmxa
+#	$(OCAMLOPT) -shared -linkall -o $@ $<
 
 # }}}
 # {{{ Glu 
