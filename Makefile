@@ -50,7 +50,7 @@ levels:  $(LDATA)
 
 # clean
 clean:
-	rm -f *~ *.cm[iox] *.o *.bin *.opt *.data *.annot *.byte
+	rm -f *~ *.cm[iox] *.o *.bin *.opt *.data *.annot *.byte *.cmt
 
 play:
 	./rolling_moon.opt $(LPLAY)
