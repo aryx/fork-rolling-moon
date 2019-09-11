@@ -26,17 +26,7 @@
 
 //define CP_USE_DEPRECATED_API_4 1
 //define CP_ALLOW_PRIVATE_ACCESS 1
-
-/*
-/Users/yoann.padioleau/.opam/4.00.1/lib/ocaml/caml/config.h:129:26: error: conflicting types for 'uint64'
- typedef ARCH_UINT64_TYPE uint64;
-=> have to manually edit the config file :(
-and put
-typedef uint64_t uint64;
-*/
-
 #include <chipmunk/chipmunk.h>
-
 #include <caml/mlvalues.h>
 #include <caml/alloc.h>
 #include <caml/memory.h>
