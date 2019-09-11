@@ -2,8 +2,7 @@
 
   This file belongs to glMLite, an OCaml binding to the OpenGL API.
 
-  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
-  Contact:  <fmonnier@linux-nantes.org>
+  Copyright (C) 2006 - 2011  Florent Monnier
 
   Permission is hereby granted, free of charge, to any person obtaining a
   copy of this software and associated documentation files (the "Software"),
@@ -107,7 +106,7 @@ let clip_slice ?(first=0) ?(last=Sys.max_string_length) s =
     (if (last<0) then len + last else last)
   in
   if i>=j || i=len
-  then String.create 0
+  then ""
   else String.sub s i (j-i)
 ;;
 

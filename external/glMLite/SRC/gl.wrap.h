@@ -2,8 +2,7 @@
 
   This file belongs to glMLite, an OCaml binding to the OpenGL API.
 
-  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
-  Contact:  <fmonnier@linux-nantes.org>
+  Copyright (C) 2006 - 2011  Florent Monnier
 
   Permission is hereby granted, free of charge, to any person obtaining a
   copy of this software and associated documentation files (the "Software"),
@@ -24,26 +23,6 @@
   in the Software.
 
 \* }}} */
-
-static inline value
-Internal_format_val( value tex_internal_format )
-{
-    GLint  internal_format;
-    switch (Tag_val(tex_internal_format))
-    {
-        case 0:
-            internal_format = Int_val( Field(tex_internal_format,0) );
-            if (internal_format > 4 || internal_format < 1)
-               caml_invalid_argument("Error: type tex_internal_format: "
-                                     "(GL.Cnst n): n should be 1, 2, 3 or 4");
-            break;
-        case 1:
-          { value _internal_format = Field(tex_internal_format,0);
-#include "enums/internal_format.inc.c"
-          } break;
-    }
-    return internal_format;
-}
 
 /* GLSL Shaders */
 

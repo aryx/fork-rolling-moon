@@ -2,8 +2,7 @@
 
   This file belongs to glMLite, an OCaml binding to the OpenGL API.
 
-  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
-  Contact:  <fmonnier@linux-nantes.org>
+  Copyright (C) 2006 - 2011  Florent Monnier
 
   Permission is hereby granted, free of charge, to any person obtaining a
   copy of this software and associated documentation files (the "Software"),
@@ -196,7 +195,7 @@ static const GLenum access_policy_table[] = {
 
 t_val ml_glmapbuffer( value _buffer_object_target_arb, value ap )
 {
-    CAMLlocal1(bo_ba);
+    value bo_ba;
     GLenum buffer_object_target_arb;
 #include "enums/buffer_object_target_arb.inc.c"
     float *ptr = (float*) glMapBufferARB( buffer_object_target_arb,
@@ -326,17 +325,19 @@ t_val ml_ba_elem_size( value _ba )
 
         case BIGARRAY_INT32:
         case BIGARRAY_FLOAT32:
-        case BIGARRAY_COMPLEX32:
             size = 4; break;
 
         case BIGARRAY_INT64:
         case BIGARRAY_FLOAT64:
-        case BIGARRAY_COMPLEX64:
+        case BIGARRAY_COMPLEX32:
             size = 8; break;
+
+        case BIGARRAY_COMPLEX64:
+            size = 16; break;
 
         case BIGARRAY_CAML_INT:
         case BIGARRAY_NATIVE_INT:
-            size = 1 * sizeof(value); break;
+            size = sizeof(value); break;
     }
     return Val_int(size);
 }

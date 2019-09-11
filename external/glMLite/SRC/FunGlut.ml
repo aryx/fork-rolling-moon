@@ -2,8 +2,7 @@
 
   This file belongs to glMLite, an OCaml binding to the OpenGL API.
 
-  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
-  Contact:  <fmonnier@linux-nantes.org>
+  Copyright (C) 2006 - 2011  Florent Monnier
 
   Permission is hereby granted, free of charge, to any person obtaining a
   copy of this software and associated documentation files (the "Software"),
@@ -28,7 +27,6 @@
 (** An {i experimental} attempt at a functional interface to Glut. *)
 
 open Glut
-open Glu
 open GL
 
 (** This function works like a [List.fold_left] which means that the application
@@ -70,7 +68,7 @@ let fun_glut ~display
 
   let app = ref (init ()) in
 
-  glutDisplayFunc (fun () -> display !app);
+  glutDisplayFunc (fun () -> app := display !app);
 
   begin match reshape with None -> ()
   | Some cb -> glutReshapeFunc (fun ~width ~height -> app := cb !app ~width ~height)

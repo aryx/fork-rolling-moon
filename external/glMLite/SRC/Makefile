@@ -3,8 +3,7 @@
 #  This file contains compile rules to build glMLite, an OCaml binding
 #  to the OpenGL API.
 #
-#  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
-#  Contact:  <fmonnier@linux-nantes.org>
+#  Copyright (C) 2006 - 2011  Florent Monnier
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a
 #  copy of this software and associated documentation files (the "Software"),
@@ -183,29 +182,18 @@ gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
 dllgl_stubs.so libgl_stubs.a: gl.wrap.o gl3_deprecations.o
 	$(OCAMLMKLIB)  -oc  gl_stubs  $^  $(GL_LIBS)
 else
-#dllgl_stubs.so libgl_stubs.a: gl.wrap.o
-#	$(OCAMLMKLIB)  -oc  gl_stubs  $<  $(GL_LIBS)
-dllGL.so libGL.a: gl.wrap.o
-	$(OCAMLMKLIB)  -o  GL  $<  $(GL_LIBS)
+dllgl_stubs.so libgl_stubs.a: gl.wrap.o
+	$(OCAMLMKLIB)  -oc  gl_stubs  $<  $(GL_LIBS)
 endif
 
-GL.cmxa GL.a:  GL.cmx  dllGL.so
-	$(OCAMLMKLIB) -o GL  $<  $(GL_LIBS)
+GL.cmxa GL.a:  GL.cmx  dllgl_stubs.so
+	$(OCAMLOPT) -a -o $@ -cclib -lgl_stubs -cclib "$(GL_LIBS)" $<
 
-GL.cma:  GL.cmo dllGL.so
-	$(OCAMLMKLIB) -o GL $(GL_LIBS) $<
+GL.cma:  GL.cmo  dllgl_stubs.so
+	$(OCAMLC) -a -o $@ -ccopt "$(GL_LIBS)" -dllib -lgl_stubs $<
 
 GL.cmxs: GL.cmxa
 	$(OCAMLOPT) -shared -linkall -o $@ $<
-
-#GL.cmxa GL.a:  GL.cmx  dllgl_stubs.so
-#	$(OCAMLOPT) -a -o $@ -cclib -lgl_stubs -cclib "$(GL_LIBS)" $<
-#
-#GL.cma:  GL.cmo  dllgl_stubs.so
-#	$(OCAMLC) -a -o $@ -ccopt "$(GL_LIBS)" -dllib -lgl_stubs $<
-#
-#GL.cmxs: GL.cmxa
-#	$(OCAMLOPT) -shared -linkall -o $@ $<
 
 # }}}
 # {{{ Glu 
@@ -446,13 +434,13 @@ loader-libjpeg.o: loader-libjpeg.c  loader-libjpeg-mem.c  loader-texure.h
 	$(OCAMLC)  -c  $<
 
 dlljpeg_loader.so libjpeg_loader.a: loader-libjpeg.o
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg -L/opt/local/lib
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -ljpeg
 
 jpeg_loader.cmxa jpeg_loader.a:  jpeg_loader.cmx  dlljpeg_loader.so
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg -L/opt/local/lib
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -ljpeg
 
 jpeg_loader.cma:  jpeg_loader.cmo  dlljpeg_loader.so
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg -L/opt/local/lib
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -ljpeg
 
 # }}}
 

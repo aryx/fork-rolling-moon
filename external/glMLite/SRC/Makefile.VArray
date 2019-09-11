@@ -3,8 +3,7 @@
 #  This file contains compile rules to build glMLite, an OCaml binding
 #  to the OpenGL API.
 #
-#  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
-#  Contact:  <fmonnier@linux-nantes.org>
+#  Copyright (C) 2006 - 2011  Florent Monnier
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a
 #  copy of this software and associated documentation files (the "Software"),
@@ -59,18 +58,18 @@ gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
 	$(OCAMLC)  -c  $<
 
 dllvertArray.so libvertArray.a: varray.wrap.o gl3_deprecations.o
-	$(OCAMLMKLIB)  -o  vertArray  $^ $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray
+	$(OCAMLMKLIB)  -o  vertArray  $^ $(GL_LIBS) -L"$(OCAML_PATH)"
 else
 dllvertArray.so libvertArray.a: varray.wrap.o
-	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"$(OCAML_PATH)"
 endif
 
 
 vertArray.cmxa vertArray.a:  vertArray.cmx  dllvertArray.so
-	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"$(OCAML_PATH)"
 
 vertArray.cma:  vertArray.cmo  dllvertArray.so
-	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"$(OCAML_PATH)"
 
 
 # vim: fdm=marker

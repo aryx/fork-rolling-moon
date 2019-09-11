@@ -2,8 +2,7 @@
 
   This file belongs to glMLite, an OCaml binding to the OpenGL API.
 
-  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
-  Contact:  <fmonnier@linux-nantes.org>
+  Copyright (C) 2006 - 2011  Florent Monnier
 
   Permission is hereby granted, free of charge, to any person obtaining a
   copy of this software and associated documentation files (the "Software"),
@@ -30,7 +29,7 @@
 (** {{:http://en.wikipedia.org/wiki/Vertex_Buffer_Object}Wikipedia article about
     Vertex Buffer Object} *)
 
-#define NOALLOC "noalloc"
+#define NOALLOC [@@noalloc]
 (* http://camltastic.blogspot.com/2008/08/tip-calling-c-functions-directly-with.html
  *)
 
