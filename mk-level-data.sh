@@ -6,5 +6,5 @@ then
 	LEVEL_DATA=`basename ${SVGZ} .svgz`.data
 fi
 
-gzcat ${SVGZ} | ./mk_level_data.byte > `basename ${LEVEL_DATA}`
+cat ${SVGZ} | gunzip | ./mk_level_data.byte > `basename ${LEVEL_DATA}`
 
